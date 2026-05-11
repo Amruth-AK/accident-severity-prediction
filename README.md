@@ -1,14 +1,14 @@
 # US Traffic Accident Severity Prediction
 
-> Predicting how severe a US traffic accident will be — before emergency services arrive — using 7.7 million real accident records, gradient boosting, and a custom Streamlit app.
+> Predicting how severe a US traffic accident will be, before emergency services arrive, using 7.7 million real accident records, gradient boosting, and a custom Streamlit app.
 
 ---
 
 ## Problem Statement
 
-Every year, tens of thousands of people die in US traffic accidents. When a crash is reported, emergency dispatchers must decide immediately how many resources to send — but the severity is often unknown until responders arrive. A model that can estimate severity from conditions at the time of the accident (weather, road features, time of day, location) could help prioritize response and get help to the most critical cases faster.
+Every year, tens of thousands of people die in US traffic accidents. When a crash is reported, emergency dispatchers must decide immediately how many resources to send, but the severity is often unknown until responders arrive. A model that can estimate severity from conditions at the time of the accident (weather, road features, time of day, location) could help prioritize response and get help to the most critical cases faster.
 
-This project trains machine learning models to predict accident severity on a scale of **1 (minor) to 4 (critical)**. The challenge is not just accuracy — it's detecting the rare, dangerous cases. Class 4 accidents make up only 2.5% of the dataset; a model that ignores them scores 80% accuracy while being useless in practice.
+This project trains machine learning models to predict accident severity on a scale of **1 (minor) to 4 (critical)**. The challenge is not just accuracy, it's detecting the rare, dangerous cases. Class 4 accidents make up only 2.5% of the dataset; a model that ignores them scores 80% accuracy while being useless in practice.
 
 ---
 
@@ -33,7 +33,7 @@ This project trains machine learning models to predict accident severity on a sc
 | MLP | 41.7% | 0.3043 | 0.1019 | 0.1108 |
 | FT-Transformer | 52.9% | 0.3559 | 0.1073 | 0.1669 |
 
-Macro F1 is the primary metric — it weights all four classes equally, which matters when two of them (Class 1 and Class 4) represent fewer than 4% of the data combined.
+Macro F1 is the primary metric, it weights all four classes equally, which matters when two of them (Class 1 and Class 4) represent fewer than 4% of the data combined.
 
 **Best model:** LightGBM tuned with Optuna + per-class threshold adjustment — **Macro F1: 0.5070**, Accuracy: 75.0%.
 
@@ -75,11 +75,11 @@ Two strategies were combined:
 
 ### Hyperparameter Tuning
 
-All three boosting models were tuned with **Optuna** (75 trials each, TPE sampler). The optimization objective was a minority-weighted F1: `0.35×F1(C1) + 0.10×F1(C2) + 0.20×F1(C3) + 0.35×F1(C4)` — deliberately penalizing misclassification of the rare, high-stakes classes.
+All three boosting models were tuned with **Optuna** (75 trials each, TPE sampler). The optimization objective was a minority-weighted F1: `0.35×F1(C1) + 0.10×F1(C2) + 0.20×F1(C3) + 0.35×F1(C4)`, deliberately penalizing misclassification of the rare, high-stakes classes.
 
 ### Deep Learning Comparison
 
-An MLP and a Feature Tokenizer Transformer (FT-Transformer) were trained on the raw imbalanced data with class-weighted loss. Both fell well short of the boosting models (macro F1: 0.30 and 0.36 respectively vs. 0.51 for LightGBM). This is consistent with findings in the literature — gradient boosting tends to outperform transformers on structured tabular data of this type.
+An MLP and a Feature Tokenizer Transformer (FT-Transformer) were trained on the raw imbalanced data with class-weighted loss. Both fell well short of the boosting models (macro F1: 0.30 and 0.36 respectively vs. 0.51 for LightGBM). This is consistent with findings in the literature that gradient boosting tends to outperform transformers on structured tabular data of this type.
 
 ---
 
