@@ -14,7 +14,7 @@ This project trains machine learning models to predict accident severity on a sc
 
 ## Live Demo
 
-[**Try the Streamlit app →**](https://YOUR-APP-NAME.streamlit.app)
+[**Try the Streamlit app →**](https://accident-severity-prediction-yfmg.onrender.com)
 
 *(Deploy instructions in [How to Run](#how-to-run))*
 
@@ -87,11 +87,13 @@ An MLP and a Feature Tokenizer Transformer (FT-Transformer) were trained on the 
 
 SHAP TreeExplainer was run on 5,000 test samples from the best LightGBM model. Top features by global mean |SHAP|:
 
-1. **Cluster** — the geospatial risk cluster dominates. Where an accident happens matters more than most weather variables.
-2. **Distance(mi)** — the road distance affected by the accident is a strong proxy for severity.
-3. **Pressure(in)** — atmospheric pressure correlates with severe weather events.
-4. **Duration_Seconds** — longer disruptions tend to indicate more serious incidents.
+1. **Distance(mi)** — the road distance affected by the accident is the single strongest predictor of severity.
+2. **Duration_Seconds** — longer disruptions are a strong indicator of more serious incidents.
+3. **Weather_Condition** — the type of weather at the time of the accident has significant influence.
+4. **Wind_Speed(mph)** — higher wind speeds correlate with more severe accidents.
 5. **Temperature(F)** — extreme temperatures (ice, heat) associate with higher severity.
+
+`Cluster` (the geospatial feature) ranks 9th globally, though it becomes more prominent when looking at Class 4 specifically, where location context matters more.
 
 ---
 
@@ -165,13 +167,6 @@ Each notebook saves its outputs to `outputs/` — subsequent notebooks load from
 ```bash
 streamlit run app/streamlit_app.py
 ```
-
-### Deploying to Streamlit Community Cloud
-
-1. Push this repository to GitHub (public)
-2. Go to [share.streamlit.io](https://share.streamlit.io) and sign in with GitHub
-3. New app → select this repo, branch `main`, main file `app/streamlit_app.py`
-4. Deploy (~3 minutes)
 
 ---
 
